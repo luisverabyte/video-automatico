@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teleprompter TEMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<!-- CAMBIA: la familia de tipografia.texto (y mono si hay) de tu design-system.md -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Una columna de lectura, en orden de grabación, con la barra de controles abajo. Oscuro por defecto, como un teleprompter.
+   CAMBIA los colores con tu design-system.md: --bg = color.oscuro.fondo, --panel = color.oscuro.superficie,
+   --fg = color.oscuro.texto, --muted = color.oscuro.texto_secundario, --accent = color.oscuro.primario,
+   --on-accent = color.oscuro.sobre_primario, --cut = color.acento. Si no hay modo oscuro, deja estos valores. */
+:root {
+  --bg: #111418;
+  --panel: #1d2024;
+  --fg: #e1e2e8;
+  --muted: #a9acb3;
+  --line: #2e3238;
+  --accent: #9ecaff;
+  --on-accent: #003258;
+  --cut: #d97757;
+  --read: "Inter", system-ui, sans-serif; /* CAMBIA: tipografia.texto.familia */
+  --label: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --size: 34px;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f8f9ff; --panel: #eceef4; --fg: #191c20; --muted: #44474c; --line: #c4c6cc;
+    --accent: #336699; --on-accent: #ffffff; --cut: #d97757; color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f8f9ff; --panel: #eceef4; --fg: #191c20; --muted: #44474c; --line: #c4c6cc;
+  --accent: #336699; --on-accent: #ffffff; --cut: #d97757; color-scheme: light;
+}
+html, body { background: var(--bg); color: var(--fg); }
+body { font-family: var(--read); padding-inline: 16px; padding-block: 0 140px; }
+main { max-width: 34em; margin: 0 auto; font-size: var(--size); line-height: 1.45; }
+main.mirror { transform: scaleX(-1); }
+header { font-size: 16px; padding-block: 28px 8px; color: var(--muted); max-width: 34rem; margin: 0 auto; }
+header h1 { font-family: var(--label); font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; font-weight: 500; }
+header p { margin: 0; line-height: 1.5; }
+.take { border-top: 2px solid var(--line); padding-block: .6em 1.2em; }
+.take-head { font-family: var(--label); font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: .6em; }
+.note { font-family: var(--read); font-size: 16px; color: var(--muted); line-height: 1.5; background: var(--panel); padding: 12px 16px; border-radius: 16px; margin-bottom: 1em; }
+.part { font-family: var(--label); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 1.4em 0 .3em; }
+.line { margin: 0 0 .7em; padding-left: .55em; border-left: 4px solid transparent; }
+.cut { background: color-mix(in srgb, var(--cut) 30%, transparent); border-radius: 8px; padding: 0 .12em; }
+.end { font-family: var(--label); font-size: 14px; color: var(--muted); text-align: center; padding-block: 2em; }
+.bar {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: var(--panel); border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center;
+  font-family: var(--label); font-size: 14px;
+}
+.bar button {
+  font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line);
+  border-radius: 9999px; padding: 8px 14px; min-width: 44px; cursor: pointer;
+}
+.bar button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bar button.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); min-width: 96px; }
+.bar label { color: var(--muted); display: flex; gap: 6px; align-items: center; }
+.bar input[type=range] { width: 110px; accent-color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+
+<header>
+  <h1>TEMA · Grabación</h1>
+  <p>Léelo de corrido, en orden. Lo resaltado al final se corta en edición para abrir el video.</p>
+</header>
+
+<main id="script">
+  <section class="take">
+    <div class="take-head">Toma única</div>
+
+    <!-- CAMBIA: una <div class="part"> por parte del guion y un <p class="line"> por frase de "Lo que dices". -->
+    <div class="part">Gancho</div>
+    <p class="line">Primera frase del gancho.</p>
+
+    <div class="part">Planteamiento</div>
+    <p class="line">Frase del planteamiento.</p>
+
+    <div class="part">Desenlace</div>
+    <p class="line">Frase de cierre que termina con <span class="cut">las palabras que abren el video.</span></p>
+  </section>
+  <div class="end">Fin.</div>
+</main>
+
+<div class="bar" role="toolbar" aria-label="Controles del teleprompter">
+  <button id="play" class="primary" type="button">▶ Rodar</button>
+  <label for="speed">Velocidad <input id="speed" type="range" min="10" max="160" value="45"></label>
+  <button id="smaller" type="button" aria-label="Letra más pequeña">A−</button>
+  <button id="bigger" type="button" aria-label="Letra más grande">A+</button>
+  <button id="mirror" type="button" aria-pressed="false">Espejo</button>
+  <button id="top" type="button">Inicio</button>
+</div>
+
+<script>
+(function () {
+  const root = document.documentElement;
+  const main = document.getElementById('script');
+  const play = document.getElementById('play');
+  const speed = document.getElementById('speed');
+  const K = 'tp-tema-'; // CAMBIA: un prefijo por video, para que cada teleprompter recuerde su velocidad y tamaño
+  let size = 34, running = false, last = 0, carry = 0, lock = null;
+
+  function load(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (e) { return d; } }
+  function save(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  size = Number(load(K + 'size', 34)) || 34;
+  speed.value = load(K + 'speed', 45);
+  root.style.setProperty('--size', size + 'px');
+
+  function setSize(n) { size = Math.max(20, Math.min(64, n)); root.style.setProperty('--size', size + 'px'); save(K + 'size', size); }
+
+  async function wake(on) {
+    try {
+      if (on && 'wakeLock' in navigator) lock = await navigator.wakeLock.request('screen');
+      else if (lock) { await lock.release(); lock = null; }
+    } catch (e) { lock = null; }
+  }
+
+  function tick(t) {
+    if (!running) return;
+    if (last) {
+      carry += Number(speed.value) * (t - last) / 1000;
+      const step = Math.floor(carry);
+      if (step) { window.scrollBy(0, step); carry -= step; }
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) { toggle(false); return; }
+    }
+    last = t;
+    requestAnimationFrame(tick);
+  }
+
+  function toggle(on) {
+    running = on; last = 0; carry = 0;
+    play.textContent = on ? '❚❚ Pausa' : '▶ Rodar';
+    wake(on);
+    if (on) requestAnimationFrame(tick);
+  }
+
+  play.addEventListener('click', () => toggle(!running));
+  speed.addEventListener('input', () => save(K + 'speed', speed.value));
+  document.getElementById('smaller').addEventListener('click', () => setSize(size - 4));
+  document.getElementById('bigger').addEventListener('click', () => setSize(size + 4));
+  document.getElementById('top').addEventListener('click', () => { toggle(false); window.scrollTo(0, 0); });
+  document.getElementById('mirror').addEventListener('click', (e) => {
+    const on = main.classList.toggle('mirror');
+    e.currentTarget.setAttribute('aria-pressed', String(on));
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' && e.target === document.body) { e.preventDefault(); toggle(!running); }
+  });
+})();
+</script>
