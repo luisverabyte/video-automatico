@@ -10,7 +10,8 @@
   <a href="https://luisverabyte.com"><b>Descarga desde la web</b></a> ·
   <a href="#cómo-se-instala">Cómo se instala</a> ·
   <a href="#en-cualquier-ai">Sin Claude</a> ·
-  <a href="https://luisverabyte.com/#newsletter">Newsletter</a>
+  <a href="https://luisverabyte.com/#newsletter">Newsletter</a> ·
+  <a href="https://github.com/luisverabyte/automated-video">English version</a>
 </p>
 
 <p align="center">
