@@ -91,11 +91,11 @@ La zona segura (dónde no tapan los botones de TikTok, Reels y Shorts) no se pre
    - **Gemini:** ábrelo en Canvas.
    - **Otra AI:** usa su lienzo o vista de documento si tiene; si no, basta el bloque de código del paso 3.
    El formato nativo es para verlo y editarlo; si cambia algo ahí, actualiza también `design-system.md`.
-5. **Dile dónde guardarlo**, según dónde está trabajando:
-   - **Claude:** súbelo al conocimiento de un Proyecto, o déjalo en la carpeta del proyecto si usa Claude Code o Cowork. Los skills de guion y edición lo buscan ahí.
-   - **ChatGPT:** súbelo como archivo a un Proyecto o a un GPT propio.
-   - **Gemini:** súbelo como archivo de conocimiento de una Gem.
-   - **Cualquier otra AI:** pégalo al inicio del chat antes de pedir un guion o una edición.
+5. **Dile cómo guardarlo una sola vez para que su AI lo recuerde siempre** (no tiene que pegarlo en cada guion ni en cada edición), según dónde está trabajando:
+   - **Claude:** crea un Proyecto y sube `design-system.md` a su conocimiento; cada guion y cada edición, en un chat dentro de ese Proyecto. En Claude Code o Cowork, basta con dejarlo en la carpeta del proyecto. Los skills de guion y edición lo buscan ahí.
+   - **ChatGPT:** crea un Proyecto y sube `design-system.md` como archivo del Proyecto (y el texto de los pasos 2 y 3 si los usas sin instalar). Todo chat que abras dentro del Proyecto lo usa.
+   - **Gemini:** crea un skill con él: pídele en el chat "Crea un skill llamado mi-sistema-de-diseno con este archivo" o créalo desde Skills en la web de Gemini. Luego lo llamas con / en cualquier chat. (Los Gems se están reemplazando por skills.)
+   - **Cualquier otra AI:** si tiene proyectos, espacios o memoria, guárdalo ahí; si no, pégalo al inicio del chat antes de pedir un guion o una edición.
 6. Cierra con una línea: el siguiente paso es el skill de guion.
 
 ## Plantilla de salida
